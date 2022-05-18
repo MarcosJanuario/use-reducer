@@ -10,7 +10,7 @@ const emailReducer = (state, action) => {
     return { value: action.val, isValid: action.val.includes('@')}
   }
   if (action.type === 'INPUT_BLUR') {
-    return { value: state.value, isValid: action.val.includes('@')}
+    return { value: state.value, isValid: state.value.includes('@')}
   }
   return { value: '', isValid: false };
 };
@@ -19,7 +19,7 @@ const passwordReducer = (state, action) => {
   if (action.type === 'USER_INPUT') {
     return { value: action.val, isValid: action.val.trim().length > 6 }
   }
-  if (action.type === 'USER_BLUR') {
+  if (action.type === 'INPUT_BLUR') {
     return { value: state.value, isValid: state.value.trim().length > 6 };
   }
   return { value: '', isValid: false };
@@ -72,6 +72,11 @@ const Login = (props) => {
     );
   };
 
+  const validateEmailHandler = () => {
+    // triggers the dispacher function on the top
+    dispatchEmail({ type: 'INPUT_BLUR', val: [] });
+  };
+
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: 'USER_INPUT', val: event.target.value });
 
@@ -80,13 +85,8 @@ const Login = (props) => {
     );
   };
 
-  const validateEmailHandler = () => {
-    // triggers the dispacher function on the top
-    dispatchEmail({ type: 'INPUT_BLUR', val: [] });
-  };
-
   const validatePasswordHandler = () => {
-    dispatchEmail({ type: 'INPUT_BLUR', val: [] });
+    dispatchPassword({ type: 'INPUT_BLUR', val: [] });
   };
 
   const submitHandler = (event) => {
